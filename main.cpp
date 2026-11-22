@@ -108,9 +108,9 @@ bool Snake::IsSnakeMoved() {
 			switch (dir_KeyScanCode) {
 			case 72: new_dir = 'u';  break;//按了键盘的向上方向键
 			case 80: new_dir = 'd';  break; //按了键盘的向下方向键
-			case 75: new_dir = 'l';   break; //按了键盘的向左方向键
-			case 77: new_dir = 'r';   break; //按了键盘的向右方向键
-			default: return false; break;
+			case 75: new_dir = 'l';  break; //按了键盘的向左方向键
+			case 77: new_dir = 'r';  break; //按了键盘的向右方向键
+			default: return false;
 			}
 			//若新方向与原方向相反，则保持原方向
 			if ((dir == 'u' && new_dir == 'd') || (dir == 'd' && new_dir == 'u') || (dir == 'l' && new_dir == 'r') || (dir == 'r' && new_dir == 'l')) {
