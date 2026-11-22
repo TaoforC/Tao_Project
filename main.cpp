@@ -47,7 +47,7 @@ public:
 	void GenerateSnakePos(Food& food);
 	std::vector<COORD> GetSnakePos() const;
 	COORD GetHeadPos() const;
-	bool IsSnakeBodyPart(int w, int h);
+	bool IsSnakeBodyPart(int& w, int& h);
 	bool IsFoodEaten(Food& food, int& food_eaten_count)const;
 	bool IsFenceHit() const;
 	bool IsBodyHit() const;
@@ -177,7 +177,7 @@ std::vector<COORD> Snake::GetSnakePos() const { return snake_pos; }
 COORD Snake::GetHeadPos() const { return head_pos; }
 
 
-bool Snake::IsSnakeBodyPart(int w, int h) {
+bool Snake::IsSnakeBodyPart(int& w, int& h) {
 	std::vector<COORD> SPos= GetSnakePos();
 			for (auto i = 0; i < SPos.size() - 1; ++i) {
 				if (SPos[i].X == w && SPos[i].Y == h)
