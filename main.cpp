@@ -4,7 +4,7 @@
 #include<random>
 #include<vector>
 
-constexpr int HEIGHT=21, WIDTH=42;
+constexpr int HEIGHT = 21, WIDTH = 42;
 static int eaten_count = 0;
 
 //移动光标的函数
@@ -19,9 +19,9 @@ void CursorGoTo(int x, int y) {
 void HideCursor() {
 	HANDLE hOutput = GetStdHandle(STD_OUTPUT_HANDLE);
 	CONSOLE_CURSOR_INFO cursorInfo;
-	GetConsoleCursorInfo(hOutput, &cursorInfo); 
-	cursorInfo.bVisible = FALSE;                
-	SetConsoleCursorInfo(hOutput, &cursorInfo); 
+	GetConsoleCursorInfo(hOutput, &cursorInfo);
+	cursorInfo.bVisible = FALSE;
+	SetConsoleCursorInfo(hOutput, &cursorInfo);
 }
 
 // 食物 和 蛇 这两个类相互引用，需在食物类前面进行蛇类的声明。 此外，为避免食物引用蛇的实例的时候，出现不允许使用不完整的蛇类型，所以把食物的函数定义移动到蛇的类定义的后面。
@@ -34,7 +34,7 @@ public:
 	COORD GetFoodPos() const;
 
 private:
-	COORD  food_pos{0,0};
+	COORD  food_pos{ 0,0 };
 };
 
 
@@ -61,7 +61,6 @@ private:
 
 
 //定义食物的相关函数
-
 //使用mt19937( 梅森旋转Mersenne Twister 伪随机数生成引擎 )去生成随机数。
 int RandInt(int lower_num, int upper_num) {
 	static std::mt19937 rng(std::random_device{}());
@@ -73,31 +72,29 @@ void Food::GenerateFoodPos(Snake& snake) {
 	std::vector<COORD>SPos = snake.GetSnakePos();
 	bool food_on_snake = true;
 	//设计投放食物时避开蛇的坐标，若食物坐标在蛇身上，则重新生成食物坐标
-		while (food_on_snake) {
-			food_pos.X = static_cast<SHORT>(RandInt(1, WIDTH - 2));
-			food_pos.Y = static_cast<SHORT>(RandInt(1, HEIGHT - 2));
-			std::vector<COORD>::size_type i;
-			for (i = 0; i < SPos.size(); ++i) {
-				if (food_pos.X == SPos[i].X && food_pos.Y == SPos[i].Y) 
-					break;
-			}
-			if (i>SPos.size()-1)
+	while (food_on_snake) {
+		food_pos.X = static_cast<SHORT>(RandInt(1, WIDTH - 2));
+		food_pos.Y = static_cast<SHORT>(RandInt(1, HEIGHT - 2));
+		std::vector<COORD>::size_type i;
+		for (i = 0; i < SPos.size(); ++i) {
+			if (food_pos.X == SPos[i].X && food_pos.Y == SPos[i].Y)
 				break;
-	   	}
+		}
+		if (i > SPos.size() - 1)
+			break;
+	}
 }
 
-COORD Food::GetFoodPos() const {return food_pos;}
-
+COORD Food::GetFoodPos() const { return food_pos; }
 
 
 //定义蛇的相关函数
 
 void Snake::GenerateInitialSnakePos() {
-	head_pos.X = static_cast<SHORT>(WIDTH / 2); 
+	head_pos.X = static_cast<SHORT>(WIDTH / 2);
 	head_pos.Y = static_cast<SHORT>(HEIGHT / 2);
 	snake_pos.push_back(head_pos);
 };
-
 
 bool Snake::IsSnakeMoved() {
 	if (_kbhit()) {
@@ -113,14 +110,10 @@ bool Snake::IsSnakeMoved() {
 			default: return false;
 			}
 			//若新方向与原方向相反，则保持原方向
-			if ((dir == 'u' && new_dir == 'd') || (dir == 'd' && new_dir == 'u') || (dir == 'l' && new_dir == 'r') || (dir == 'r' && new_dir == 'l')) {
-				new_dir = dir;
+			if ((dir == 'u' && new_dir == 'd') || (dir == 'd' && new_dir == 'u') || (dir == 'l' && new_dir == 'r') || (dir == 'r' && new_dir == 'l')) 
 				return false;
-			}
-			else {
-				dir = new_dir; // 若新方向与原方向并不是相反方向，把当前方向值更新为新方向值
+			else 
 				return true; //除了相反方向以外，其他方向都判断为true（上一个方向的前/左/右）
-			}
 		}
 		else
 			return false;
@@ -136,16 +129,16 @@ char Snake::GenerateNewDir() {
 			int dir_KeyScanCode = _getch();
 			switch (dir_KeyScanCode) {
 			case 72: new_dir = 'u';  break;
-			case 80: new_dir = 'd';  break; 
-			case 75: new_dir = 'l';  break; 
-			case 77: new_dir = 'r';  break; 
-			default: new_dir = dir;  break;
+			case 80: new_dir = 'd';  break;
+			case 75: new_dir = 'l';   break;
+			case 77: new_dir = 'r';   break;
+			default: new_dir = dir; break;
 			}
 
-			if ((dir == 'u' && new_dir == 'd') || (dir == 'd' && new_dir == 'u') || (dir == 'l' && new_dir == 'r') || (dir == 'r' && new_dir == 'l')) 
+			if ((dir == 'u' && new_dir == 'd') || (dir == 'd' && new_dir == 'u') || (dir == 'l' && new_dir == 'r') || (dir == 'r' && new_dir == 'l'))
 				new_dir = dir;
-			else 
-				dir = new_dir; 
+			else
+				dir = new_dir;
 		}
 		else
 			new_dir = dir;
@@ -178,11 +171,11 @@ COORD Snake::GetHeadPos() const { return head_pos; }
 
 
 bool Snake::IsSnakeBodyPart(int& w, int& h) {
-	std::vector<COORD> SPos= GetSnakePos();
-			for (auto i = 0; i < SPos.size() - 1; ++i) {
-				if (SPos[i].X == w && SPos[i].Y == h)
-					return true;
-			}
+	std::vector<COORD> SPos = GetSnakePos();
+	for (auto i = 0; i < SPos.size() - 1; ++i) {
+		if (SPos[i].X == w && SPos[i].Y == h)
+			return true;
+	}
 	return false;
 }
 
@@ -191,13 +184,12 @@ bool  Snake::IsFoodEaten(Food& food)const {
 	return head_pos.X == FPos.X && head_pos.Y == FPos.Y;
 }
 
-
-bool Snake::IsFenceHit() const{
+bool Snake::IsFenceHit() const {
 	return head_pos.X == 0 || head_pos.X == WIDTH - 1 || head_pos.Y == 0 || head_pos.Y == HEIGHT - 1;
 }
 
-bool Snake::IsBodyHit() const{
-	for (auto i=0; i < snake_pos.size()-1;  ++i) {
+bool Snake::IsBodyHit() const {
+	for (auto i = 0; i < snake_pos.size() - 1; ++i) {
 		if (head_pos.X == snake_pos[i].X && head_pos.Y == snake_pos[i].Y)
 			return true;
 	}
@@ -237,8 +229,8 @@ void Render(Food& food, Snake& snake) {
 			}
 			//2.绘制食物
 			else if (FPos.X == w && FPos.Y == h) {
-					std::cout << "F";
-					continue;
+				std::cout << "F";
+				continue;
 			}
 			//3.绘制蛇的身体
 			else if (snake.IsSnakeBodyPart(w, h)) {
@@ -267,23 +259,18 @@ void Render(Food& food, Snake& snake) {
 }
 
 
-
 int main() {
 	HideCursor();
 	Food food;
-	Snake snake; 
+	Snake snake;
 	snake.GenerateInitialSnakePos();
 	food.GenerateFoodPos(snake);
 	GameInstructions();
 	Render(food, snake);
-
 	while (!snake.IsSnakeMoved()) {}
-
 	FlushConsoleInputBuffer(GetStdHandle(STD_INPUT_HANDLE));
 	bool GameOver = false;
-
 	while (!GameOver) {
-
 		snake.GenerateNewDir();
 		snake.GenerateSnakePos(food);
 		if (snake.IsFoodEaten(food)) {
@@ -300,6 +287,6 @@ int main() {
 			GameOver = true;
 		}
 		Sleep(321);
-	 }	
+	}
 	return 0;
 }
