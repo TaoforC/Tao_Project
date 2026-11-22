@@ -1,0 +1,7 @@
+<Solution>
+  <Configurations>
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Project Path="Tao_Project.vcxproj" Id="104a2d33-668d-4461-87d9-eea7c3494533" />
+</Solution>
