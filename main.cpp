@@ -137,9 +137,9 @@ char Snake::GenerateNewDir() {
 			switch (dir_KeyScanCode) {
 			case 72: new_dir = 'u';  break;
 			case 80: new_dir = 'd';  break; 
-			case 75: new_dir = 'l';   break; 
-			case 77: new_dir = 'r';   break; 
-			default: break;
+			case 75: new_dir = 'l';  break; 
+			case 77: new_dir = 'r';  break; 
+			default: new_dir = dir;  break;
 			}
 
 			if ((dir == 'u' && new_dir == 'd') || (dir == 'd' && new_dir == 'u') || (dir == 'l' && new_dir == 'r') || (dir == 'r' && new_dir == 'l')) 
