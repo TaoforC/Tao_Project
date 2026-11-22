@@ -48,7 +48,7 @@ public:
 	std::vector<COORD> GetSnakePos() const;
 	COORD GetHeadPos() const;
 	bool IsSnakeBodyPart(int& w, int& h);
-	bool IsFoodEaten(Food& food, int& food_eaten_count)const;
+	bool IsFoodEaten(Food& food)const;
 	bool IsFenceHit() const;
 	bool IsBodyHit() const;
 
@@ -186,7 +186,7 @@ bool Snake::IsSnakeBodyPart(int& w, int& h) {
 	return false;
 }
 
-bool  Snake::IsFoodEaten(Food& food, int& food_eaten_count)const {
+bool  Snake::IsFoodEaten(Food& food)const {
 	COORD FPos = food.GetFoodPos();
 	return head_pos.X == FPos.X && head_pos.Y == FPos.Y;
 }
@@ -286,7 +286,7 @@ int main() {
 
 		snake.GenerateNewDir();
 		snake.GenerateSnakePos(food);
-		if (snake.IsFoodEaten(food, eaten_count)) {
+		if (snake.IsFoodEaten(food)) {
 			food.GenerateFoodPos(snake);
 			++eaten_count;
 		}
