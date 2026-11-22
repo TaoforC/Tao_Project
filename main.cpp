@@ -119,7 +119,7 @@ bool Snake::IsSnakeMoved() {
 			}
 			else {
 				dir = new_dir; // 若新方向与原方向并不是相反方向，把当前方向值更新为新方向值
-				return true;
+				return true; //除了相反方向以外，其他方向都判断为true（上一个方向的前/左/右）
 			}
 		}
 		else
